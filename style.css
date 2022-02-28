@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+canvas {
+    margin: 0 auto;
+}
+.wrap-button {
+    text-align: center;
+    margin-top: 15px;
+}
+button {
+    border: none;
+    background: rgb(221, 3, 228);
+    background: -moz-linear-gradient(135deg, rgba(221, 3, 228, 1) 0%, rgba(86, 17, 236, 1) 100%);
+    background: -webkit-linear-gradient(135deg, rgba(221, 3, 228, 1) 0%, rgba(86, 17, 236, 1) 100%);
+    background: linear-gradient(135deg, rgba(221, 3, 228, 1) 0%, rgba(86, 17, 236, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#dd03e4",endColorstr="#5611ec",GradientType=1);
+    border-radius: 4px;
+    width: 70px;
+    height: 50px;
+    color: white;
+}
+.wrap-top {
+    margin-bottom: 4px;
+}
