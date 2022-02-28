@@ -3,6 +3,9 @@ const canvas = document.querySelector('#canvas')
 const ctx = canvas.getContext('2d')
 const width = canvas.width
 const height = canvas.height
+let animationTime = 100
+
+const color = ['Lime', 'Crimson', 'OrangeRed', 'Gold', 'Yellow', 'Moccasin', 'MediumSpringGreen', 'LightCoral', 'Aqua', 'Aquamarine', 'MediumSlateBlue', 'Fuchsia', 'SaddleBrown', 'Indigo',]
 
 // Находим кнопки для управления змейкой
 const btnUp = document.querySelector('.button-up')
@@ -39,7 +42,7 @@ function drawScore() {
 }
 // Конец игры
 function gameOver() {
-    clearInterval(intervalId)
+    playing = false;
     ctx.font = "60px Courier"
     ctx.fillStyle = 'black'
     ctx.textAlign = 'center'
@@ -89,8 +92,17 @@ function Snake() {
 }
 // рисуем ячейки змейки
 Snake.prototype.draw = function () {
-    for (let i = 0; i < this.segments.length; i++) {
-        this.segments[i].drawSquare('blue')
+    this.segments[0].drawSquare("LimeGreen");
+    let isEvenSegment = false;
+
+    for (let i = 1; i < this.segments.length; i++) {
+        if (isEvenSegment) {
+            this.segments[i].drawSquare("LimeGreen");
+        } else {
+            this.segments[i].drawSquare("blue");
+        }
+
+        isEvenSegment = !isEvenSegment; // следующий сегмент будет нечетным
     }
 }
 // Перемещаем змейку
@@ -117,6 +129,7 @@ Snake.prototype.move = function () {
     if (newHead.equal(apple.position)) {
         score++;
         apple.move();
+        animationTime -= 5;
     } else {
         this.segments.pop();
     }
@@ -167,15 +180,24 @@ Apple.prototype.move = function () {
 
 let snake = new Snake(); let apple = new Apple();
 
+let playing = true
 
-let intervalId = setInterval(function () {
+function gameLoop() {
     ctx.clearRect(0, 0, width, height);
     drawScore();
     snake.move();
     snake.draw();
     apple.draw();
-    drawBorder()
-}, 100);
+    drawBorder();
+
+    // Устанавливается в false функцией gameOver
+    if (playing) {
+        setTimeout(gameLoop, animationTime);
+    }
+};
+
+// Начинаем игровой цикл
+gameLoop();
 
 document.addEventListener('keydown', function (event) {
     // let newDirection = event.key
@@ -197,25 +219,25 @@ let directions = {
     39: "right",
     40: "down"
 };
-btnUp.addEventListener('click', function() {
+btnUp.addEventListener('click', function () {
     let newDirection = this.textContent
     if (newDirection = 'up') {
         snake.setDirection(newDirection);
     }
 })
-btnLeft.addEventListener('click', function() {
+btnLeft.addEventListener('click', function () {
     let newDirection = this.textContent
     if (newDirection = 'left') {
         snake.setDirection(newDirection);
     }
 })
-btnDown.addEventListener('click', function() {
+btnDown.addEventListener('click', function () {
     let newDirection = this.textContent
     if (newDirection = 'down') {
         snake.setDirection(newDirection);
     }
 })
-btnRight.addEventListener('click', function() {
+btnRight.addEventListener('click', function () {
     let newDirection = this.textContent
     if (newDirection = 'right') {
         snake.setDirection(newDirection);
